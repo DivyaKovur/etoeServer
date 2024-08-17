@@ -1,12 +1,11 @@
 var express= require ('express')
+var getDb=require('../common/dbfunction')
 var mongodb=require('mongodb')
 var router=express.Router();
 router.post('/save', async function(req,res,next){
    try{ 
     const data=req.body.data
-    const MongoClient=mongodb.MongoClient
-    const server=await MongoClient.connect('mongodb+srv://etoeapp:etoeapp@etoe.3rjku.mongodb.net/')
-   const db=server.db("sms")
+const db= await getDb()
    const collection=db.collection('marks')
    const result= await collection.insertOne(data)
    res.send(result)
@@ -18,5 +17,17 @@ router.post('/save', async function(req,res,next){
     // res.send(`hello express am ${name} from  ${loc}`)
 
 })
+
+router.get('/getNames', async function(req,res,next){
+    try{
+    const db= await getDb()
+       const collection=db.collection('marks')
+       const result= await collection.find().toArray()
+       res.send(result)
+    }   catch(ex){
+        res.send(ex.messsage)
+    }   
+})
+
 
 module.exports=router;
