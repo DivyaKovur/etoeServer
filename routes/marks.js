@@ -28,6 +28,14 @@ router.get('/getNames', async function(req,res,next){
         res.send(ex.messsage)
     }   
 })
-
+router.post('/login', async function(req,res,next){
+const {uid,pwd}=req.body
+if(uid==="div"&& pwd==="saidiv"){
+res.send([{uid,pwd}])
+}
+else{
+    res.send([])
+}
+})
 
 module.exports=router;
